@@ -1,1 +1,1 @@
-https://rest-api-concert-project.szymonkluka1.repl.co/
+https://concert-project-mongodb-atlas.szymonkluka1.repl.co/
