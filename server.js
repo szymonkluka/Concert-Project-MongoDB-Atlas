@@ -7,7 +7,8 @@ const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
 const http = require('http');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/NewWaveDB', { useNewUrlParser: true });
+const uri = 'mongodb+srv://szymonkluka:mongodatabase@cluster0.dr5p4rv.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.once('open', () => {

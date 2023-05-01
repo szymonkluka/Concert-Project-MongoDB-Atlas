@@ -78,7 +78,7 @@ exports.modifySeat = async (req, res) => {
 
         if (updatedSeat) {
             // Emit the 'updateSeat' event to connected clients after updating the db object
-            req.io.emit('updateSeat', updatedSeat);
+            req.io.emit('updateSeats', await Seat.find());
 
             res.json({ message: 'OK' });
         } else {

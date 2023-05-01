@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Seat = require('../models/seat.model')
 const SeatController = require('../controllers/seats.controllers')
 
 // get all seats
