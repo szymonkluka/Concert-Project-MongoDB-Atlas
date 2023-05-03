@@ -1,0 +1,31 @@
+{
+  "name": "rest-api",
+  "version": "1.0.0",
+  "description": "express.Router",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha test/api/concerts/get.test.js",
+    "test:watch": "onchange \"./**/*.js\" -i -k -- yarn test",
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "express",
+    "router",
+    "express.Router"
+  ],
+  "author": "Simon K",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "cors": "^2.8.5",
+    "express": "4.17.1",
+    "express-handlebars": "3.1.0",
+    "mocha": "^10.2.0",
+    "mongoose": "^7.0.4",
+    "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.6.1",
+    "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13"
+  }
+}

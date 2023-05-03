@@ -1,0 +1,55 @@
+{
+  "name": "rest-api",
+  "version": "0.1.0",
+  "description": "rest-api",
+  "main": "node server.js",
+  "private": true,
+  "keywords": [
+    "express",
+    "router",
+    "express.Router"
+  ],
+  "author": "Simon K",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bootstrap": "4.3.1",
+    "build": "^0.1.4",
+    "path": "^0.12.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "7.2.5",
+    "react-router-dom": "6.0.1",
+    "react-scripts": "5.0.0",
+    "reactstrap": "8.0.1",
+    "redux": "4.1.2",
+    "redux-devtools-extension": "2.13.9",
+    "redux-thunk": "^2.4.1",
+    "sass": "^1.49.9",
+    "socket.io-client": "^4.6.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build-app": "react-scripts build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
