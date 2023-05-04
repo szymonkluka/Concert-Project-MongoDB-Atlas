@@ -5,6 +5,7 @@ const path = require('path');
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
+//const concertsTestRouter = require('./routes/concertsTest.routes');
 const http = require('http');
 const mongoose = require('mongoose');
 const uri = 'mongodb+srv://szymonkluka:mongodatabase@cluster0.dr5p4rv.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 app.use('/api', testimonialsRoutes);
 app.use('/api', concertsRoutes);
 app.use('/api', seatsRoutes);
+// app.use('/api', concertsTestRouter);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));

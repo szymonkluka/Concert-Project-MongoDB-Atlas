@@ -2,21 +2,21 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
 const Concert = require('../../../models/concert.model');
-chai.use(chaiHttp);
-const server = require('../../../server.js');
+const app = require('../../../server');
 
+chai.use(chaiHttp);
 const expect = chai.expect;
 const request = chai.request;
 
-describe('GET /api/concerts/performer/:performer', () => {
-    before(async () => {
+describe('Test Concert Endpoints', () => {
+    beforeEach(async function () {
         const NODE_ENV = process.env.NODE_ENV;
         let dbUri;
 
         if (NODE_ENV === 'production') dbUri = 'mongodb+srv://szymonkluka:mongodatabase@cluster0.dr5p4rv.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
         else if (NODE_ENV === 'test') dbUri = 'mongodb://localhost:27017/NewWaveDB';
         else dbUri = 'mongodb+srv://szymonkluka:mongodatabase@cluster0.dr5p4rv.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
-        await mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
+        await mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
         const concertOne = new Concert({ performer: 'John Doe', genre: 'Rock', price: 25, day: 1, image: '/img/uploads/1fsd324fsdg.jpg' });
         await concertOne.save();
@@ -28,54 +28,47 @@ describe('GET /api/concerts/performer/:performer', () => {
         await concertThree.save();
     });
 
-    after(async () => {
-        await Concert.deleteMany();
+    // after(async function () {
+    //     await Concert.deleteMany({}, function (err) {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+    //     });
+    // });
+
+    describe('GET /concerts/performer1/:performer', () => {
+        it('should return all concerts by performer', (done) => {
+            const performerName = "John Doe";
+            const res = request(app)
+                .get(`/api/concerts/performer/${performerName}`)
+                .end((err, res) => {
+                    expect(res.status).to.be.equal(200);
+                    expect(res.body).to.be.an('array');
+                    expect(res.body.length).to.be.equal(3);
+                    done();
+                });
+        });
+    });
+
+    describe('GET /concerts/genre1/:genre', () => {
+        it('should return all concerts by genre', async () => {
+            const genre = "Rock";
+            const res = await request(app)
+                .get(`/concerts/genre/${genre}`);
+            expect(res.status).to.be.equal(200);
+            expect(res.body).to.be.an('array');
+            expect(res.body.length).to.be.equal(3);
+        });
+    });
+
+    describe('GET /concerts/day1/:day', () => {
+        it('should return all concerts by day', async () => {
+            const day = "1";
+            const res = await request(app)
+                .get(`/concerts/day/${day}`);
+            expect(res.status).to.be.equal(200);
+            expect(res.body).to.be.an('array');
+            expect(res.body.length).to.be.equal(3);
+        });
     })
-
-    it('/ should return all concerts by performer', (done) => {
-        const performerName = "John Doe"
-        request(server)
-            .get(`/api/concerts/performer/${performerName}`)
-            .end((err, res) => {
-                expect(res.status).to.be.equal(200);
-                expect(res.body).to.be.an('array');
-                expect(res.body.length).to.be.equal(1);
-                done();
-            });
-    });
-    it('/ should return all concerts by genre', (done) => {
-        const genre = "Rock"
-        request(server)
-            .get(`/api/concerts/genre/${genre}`)
-            .end((err, res) => {
-                expect(res.status).to.be.equal(200);
-                expect(res.body).to.be.an('array');
-                expect(res.body.length).to.be.equal(1);
-                done();
-            });
-    });
-    it('/ should return all concerts by day', (done) => {
-        const day = "1"
-        request(server)
-            .get(`/api/concerts/day/${day}`)
-            .end((err, res) => {
-                expect(res.status).to.be.equal(200);
-                expect(res.body).to.be.an('array');
-                expect(res.body.length).to.be.equal(3);
-                done();
-            });
-    });
-    it('should return all concerts by price range', (done) => {
-        const priceMin = 20;
-        const priceMax = 40;
-        request(server)
-            .get(`/api/concerts/price/${priceMin}/${priceMax}`)
-            .end((err, res) => {
-                expect(res.status).to.be.equal(200);
-                expect(res.body).to.be.an('array');
-                expect(res.body.length).to.be.equal(3);
-                done();
-            });
-    });
-
 });

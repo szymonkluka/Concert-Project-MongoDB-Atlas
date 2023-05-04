@@ -14,10 +14,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "bootstrap": "4.3.1",
-<<<<<<< HEAD
     "build": "^0.1.4",
-=======
->>>>>>> ac585df2054fadfef071e4990298dcd7761b7d8b
     "path": "^0.12.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

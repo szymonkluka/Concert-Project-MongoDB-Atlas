@@ -1,27 +1,36 @@
 const mongoose = require('mongoose');
+const db = mongoose.connection;
 
-const concertSchema = new mongoose.Schema({
+const concertTestSchema = new mongoose.Schema({
     id: mongoose.Schema.Types.ObjectId,
     performer: {
         type: String,
-        required: true,
+        required: true
     },
     genre: {
         type: String,
-        required: true,
+        required: true
     },
     price: {
         type: Number,
-        required: true,
+        required: true
     },
     day: {
         type: Number,
-        required: true,
+        required: true
     },
     image: {
         type: String,
-        required: true,
+        required: true
     }
+}, { collection: 'concertsTest' }); // set collection name to 'concertsTest'
+
+db.once('open', () => {
+    console.log('Connected to the database');
 });
 
-module.exports = mongoose.model('ConcertTest', concertSchema);
+db.on('error', err => console.log('Error ' + err));
+
+const ConcertTest = mongoose.model('ConcertTest', concertTestSchema);
+
+module.exports = ConcertTest;

@@ -42,6 +42,7 @@ exports.getConcertById = async (req, res) => {
 // get concert by performer
 exports.getConcertsByPerformer = async (req, res) => {
     try {
+        console.log(req);
         const performer = req.params.performer;
         const concerts = await Concert.find({ performer: performer });
         res.json(concerts);
