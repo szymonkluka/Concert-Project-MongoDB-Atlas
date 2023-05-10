@@ -2,19 +2,24 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const path = require('path');
-const testimonialsRoutes = require('./routes/testimonials.routes');
-const concertsRoutes = require('./routes/concerts.routes');
-const seatsRoutes = require('./routes/seats.routes');
-//const concertsTestRouter = require('./routes/concertsTest.routes');
-const http = require('http');
 const mongoose = require('mongoose');
-const uri = 'mongodb+srv://szymonkluka:mongodatabase@cluster0.dr5p4rv.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const http = require('http');
+
+const NODE_ENV = process.env.NODE_ENV || 'test';
+let dbUri;
+
+if (NODE_ENV === 'production') {
+  dbUri = 'mongodb+srv://szymonkluka:mongodatabase@cluster0.dr5p4rv.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
+} else if (NODE_ENV === 'test') {
+  dbUri = 'mongodb://localhost:27017/NewWaveDB';
+} else {
+  dbUri = 'mongodb+srv://szymonkluka:mongodatabase@cluster0.dr5p4rv.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
+}
+
+mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
-db.once('open', () => {
-  console.log('Connected to the database');
-});
+
 db.on('error', err => console.log('Error ' + err));
 
 const server = http.createServer(app);
@@ -31,10 +36,13 @@ app.use((req, res, next) => {
   next();
 });
 
+const testimonialsRoutes = require('./routes/testimonials.routes');
+const concertsRoutes = require('./routes/concerts.routes');
+const seatsRoutes = require('./routes/seats.routes');
+
 app.use('/api', testimonialsRoutes);
 app.use('/api', concertsRoutes);
 app.use('/api', seatsRoutes);
-// app.use('/api', concertsTestRouter);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
@@ -63,8 +71,12 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 8000;
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+
+db.once('open', () => {
+  console.log('Connected to the database');
+  server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
 });
 
 module.exports = app;
