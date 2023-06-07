@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const helmet = require('helmet');
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -25,6 +26,8 @@ db.on('error', err => console.log('Error ' + err));
 const server = http.createServer(app);
 
 const io = require('socket.io')(server, { cors: { origin: "*" } });
+
+app.use(helmet())
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
