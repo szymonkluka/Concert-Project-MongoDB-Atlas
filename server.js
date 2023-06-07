@@ -6,7 +6,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const http = require('http');
 
-const NODE_ENV = process.env.NODE_ENV || 'test';
+const NODE_ENV = process.env.NODE_ENV || 'production';
 let dbUri;
 
 if (NODE_ENV === 'production') {
